@@ -320,7 +320,7 @@
                 <input type="hidden" name="buildingId" id="buildingId" value="">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" id="btnassignmentBuilding">Giao tòa nhà</button>
+                <button type="button" class="btn btn-default" id="btnAssignmentBuilding">Giao tòa nhà</button>
                 <button type="button" class="btn btn-default" id="">Đóng</button>
             </div>
         </div>
@@ -375,7 +375,7 @@
         })
     }
 
-    $('#btnassignmentBuilding').click(function (e) {
+    $('#btnAssignmentBuilding').click(function (e) {
         e.preventDefault();
         var data = {};
         data['buildingId'] = $('#buildingId').val();
@@ -383,37 +383,30 @@
             return $(this).val();
         }).get();
         data['staffs'] = staffs;
-        if(data['staffs'] != '')
-        {
-            assingment(data);
+        if (data['staffs'] != '') {
+            assignment(data);
             console.log("ok");
-        }
+        } else {
 
-        else
-        {
-            window.location.href="<c:url value = "/admin/building-list?message=staff_required"/>";
+            window.alert("Bạn chưa chọn nhân viên !");
         }
     })
 
-    function assingment(data)
-    {
+    function assignment(data) {
         $.ajax({
             type: "POST",
-            url: "${buildingAPI}/" + "assigment",
+            url: "${buildingAPI}/" + "assignment",
             data: JSON.stringify(data),
             contentType: "application/json",
             dataType: "JSON",
-            success: function (response)
-            {
-                console.info("Success");
-                window.location.href="<c:url value = "/admin/building-list?message=success"/>";
+            success: function (response) {
+                window.location.reload();
+                window.alert("Đã giao thành công !");
             },
 
-            error: function (response)
-            {
-                console.info("Giao không thành công!");
-                window.location.href="<c:url value = "/admin/building-list?message=error"/>";
-                console.log(respond);
+            error: function (response) {
+                window.location.reload();
+            window.alert("Giao không thành công !");
             }
         })
     }

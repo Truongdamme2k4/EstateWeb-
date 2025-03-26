@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@include file="/common/taglib.jsp"%>
-<c:url var="webcontacturl" value="/lien-he"/>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -76,10 +75,11 @@
                     <div class="google-map margin-bottom-30">
                         <div class="maps_iframe">
                             <iframe style="width: 100%;"
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.577731862711!2d106.7695372142139!3d10.850261760047032!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f8d0e993b05%3A0x8abf4c480f8b822b!2zOTcgTWFuIFRoacOqbiwgUGjDuiBIaeG7h3AgSMaw4budYywgbmjhuq10IHPDumMgVHJ1w6JuIFbEg25nLCBWaeG7h3QgTmFt!5e0!3m2!1sen!2s!4v1652520257601!5m2!1sen!2s"
-                                width="600" height="450" style="border:0;" allowfullscreen=""
-                                loading="lazy"></iframe>
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.577731862711!2d106.7695372142139!3d10.850261760047032!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f8d0e993b05%3A0x8abf4c480f8b822b!2zOTcgTWFuIFRoacOqbiwgUGjDuiBIaeG7h3AgSMaw4budYywgbmjhuq10IHPDumMgVHJ1w6JuIFbEg25nLCBWaeG7h3QgTmFt!5e0!3m2!1sen!2s!4v1652520257601!5m2!1sen!2s"
+                                    width="600" height="450" style="border:0;" allowfullscreen=""
+                                    loading="lazy"></iframe>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -115,20 +115,19 @@
                     </div>
                 </div>
                 <div class="col-12 col-md-6">
-
                     <h2 class="title-lienhe"><strong>Liên hệ với chúng tôi</strong></h2>
-                    <form:form id="listForm" action="${webcontacturl}" method="POST">
+                    <form:form id="customerForm" modelAttribute="customerEntity" method="GET">
                         <div class="row">
                             <div class="col">
-                                <input type="text" class="form-control" name = "fullName" placeholder="Họ và tên">
+                                <form:input class="form-control" path="fullName" placeholder="Họ và tên"/>
                             </div>
                             <div class="col">
-                                <input type="text" class="form-control" name = "email" placeholder="Email">
+                                <form:input class="form-control" path="email" placeholder="Email"/>
                             </div>
                         </div>
-                        <input type="text" class="form-control mt-3" name = "customerPhone" placeholder="Số điện thoại">
-                        <input type="text" class="form-control mt-3" name = "note" placeholder="Nội dung">
-                        <button type="button" class="btn btn-primary px-4 mt-3" id ="addCustomer">
+                        <form:input class="form-control mt-3" path="phone" placeholder="Số điện thoại"/>
+
+                        <button type="button" class="btn btn-primary px-4 mt-3" id="btnAddCustomer">
                             Gửi liên hệ
                         </button>
                     </form:form>
@@ -234,44 +233,63 @@
         </div>
     </footer>
 </div>
+
+<script src="web/vendor/jquery/jquery.min.js"></script>  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js" integrity="sha512-CwHUCK55pONjDxvPZQeuwKpxos8mPyEv9gGuWC8Vr0357J2uXg1PycGDPND9EgdokSFTG6kgSApoDj9OM22ksw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script type="text/javascript"></script>
-<script>
-    $('#addCustomer').click(function (e) {
-        e.preventDefault();
-        var fullname = $('input[name="fullName"]').val();
-        var email = $('input[name="email"]').val();
-        var phone = $('input[name="customerPhone"]').val();
-        var demand = $('input[name="note"]').val();
-        var formData = {
-            fullName: fullname,
-            email: email,
-            customerPhone: phone,
-            note: demand
-        };
+<div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style=font-size:20px;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Thông báo</h5>
 
-        addInfo(formData);
+            </div>
+            <div class="modal-body">
+                Vui lòng nhập đầy đủ tên và số điện thoại !!!
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#btnAddCustomer').click(function () {
+        var data = {}
+        var formData = $('#customerForm').serializeArray();
+        $.each(formData, function (i, v) {
+            data["" + v.name + ""] = v.value;
+        });
+        if (data["phone"] != "" && data["fullName"] !="") {
+            addCus(data);
+
+        } else {
+            $('#infoModal').modal('show');
+        }
     });
 
-    function addInfo(formData)
-    {
+    //call api
+    function addCus(data) {
         $.ajax({
-            url: "${webcontacturl}",
-            type: 'POST',
-            data: JSON.stringify(formData),
+            type: "POST",
+            url: "/api/home/lien-he",
+            data: JSON.stringify(data),
             contentType: "application/json",
-            success: function(response) {
-                location.reload();
-                alert("Gửi thông tin liên hệ thành công")
+            dataType: "JSON",
+            success: function (response) {
+                console.log("Success");
             },
-            error: function(xhr, status, error) {
-                location.reload();
+            error: function (response) {
+                console.log("failed");
+                console.log(response);
             }
+
         });
     }
 
+
 </script>
+
+
 </body>
 </html>

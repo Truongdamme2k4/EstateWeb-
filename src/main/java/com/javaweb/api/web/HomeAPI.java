@@ -11,7 +11,7 @@ public class HomeAPI {
     @Autowired
     private CustomerRepository customerRepository;
 
-	@PostMapping("/lien-he")
+    @PostMapping("/lien-he")
     public void addCustomer(@RequestBody CustomerEntity customerEntity){
         customerEntity.setIsActive("1");
         customerRepository.save(customerEntity);

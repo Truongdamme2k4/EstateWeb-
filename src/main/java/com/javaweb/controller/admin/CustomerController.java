@@ -1,5 +1,6 @@
 package com.javaweb.controller.admin;
 
+import com.javaweb.entity.CustomerEntity;
 import com.javaweb.enums.Status;
 import com.javaweb.enums.TransactionType;
 import com.javaweb.model.dto.CustomerDTO;
@@ -81,12 +82,4 @@ public class CustomerController
         return mav;
     }
 
-    @RequestMapping(value = "/lien-he", method = RequestMethod.POST)
-    public ResponseEntity<?> contact(@RequestBody CustomerDTO customer)
-    {
-        if(customer.getCustomerPhone() != null && customer.getFullName() != null){
-            customerService.addOrUpdateCustomer(customer);
-        }
-        return ResponseEntity.ok("");
-    }
 }
