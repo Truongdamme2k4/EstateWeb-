@@ -84,7 +84,9 @@
 					</security:authorize>
 					<security:authorize access = "isAuthenticated()">
 						<li class="nav-item"><a class="nav-link" href="#"> Xin chào <%=SecurityUtils.getPrincipal().getUsername()%></a></li>
+                        <li class="nav-item"><a class="nav-link" href="http://localhost:8080/admin/home">Quản lý</a></li>
 						<li class="nav-item"><a class="nav-link" href="<c:url value='/logout'/>">Thoát</a></li>
+
 					</security:authorize>
 				</ul>
 			</div>

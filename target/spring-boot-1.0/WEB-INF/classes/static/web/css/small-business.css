@@ -662,6 +662,21 @@ h4 {
   width: 100%;
 }
 
+.searchForm{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.searchForm .btnSearch{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+}
+.searchForm .btnSearch button{
+  background-color: #626d62;
+}
+
 
 
 
